@@ -1,0 +1,118 @@
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+FB 3.40 03/00
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Neue Endpunkte:
+---------------------------------------------------------------------------------------------------
+Belege
+Es gibt neue Endpunkte zur Übergabe von Belegen
+POST /v1/accounting-documents -> Legt einen neuen Beleg an, der in den Belegordner mit der angegebenen UUID in der Erfassungsart "Zentrale Belegübernahme" abgerufen werden kann. Gibt eine workOrderId zurück.
+POST /v1/accounting-document-groups/{accountingDocumentGroupId}/accounting-documents: Wie POST /v1/accounting-documents, zusätzlich wird über die Erfassungsgruppen-Id (accountingDocumentGroupId) die Erfassungsgruppe angegeben, in die der Beleg geschrieben werden soll.
+GET  /v1/accounting-documents/queue/{workOrderId} -> Gibt den Status des Belegs mit der angegebenen workOrderId an (Pending, Processing, Finished, Error, NotFound).
+
+Belegordner
+Es gibt einen neuen Endpunkt zum Abrufen der Einstellungen von Belegordnern der Erfassungsart "Zentrale Belegübernahme"
+GET  /v1/accounting-document-folders/{folderUuid} -> Gibt die Einstellungen des Belegordners der Erfassungsart "Zentrale Belegübernahme" mit der angegebenen UUID zurück
+
+Erfassungsgruppen
+Es gibt einen neuen Endpunkt zum Anlegen von Erfassungsgruppen in Belegordnern der Erfassungsart "Zentrale Belegübernahme"
+POST /v1/accounting-document-groups -> Legt in dem Belegordner mit der übergebenen UUID eine neue Erfassungsgruppe an
+GET  /v1/accounting-document-groups/queue/{workOrderId} -> Gibt den Status der Erfassungsgruppe mit der angegebenen workOrderId an (Pending, Processing, Finished, Error, NotFound). Im Erfolgsfall (Status: Finished) wird die ID der erstellten Erfassungsgruppe (AccountingDocumentGroupId) zurückgegeben.
+
+---------------------------------------------------------------------------------------------------
+Änderungen:
+---------------------------------------------------------------------------------------------------
+Datums-Werte von Benutzerdefinierten Feldern
+Enthält ein benutzerdefiniertes Feld ein Datum wird dieses künftig als String-Wert angegeben.
+Das Format ändert sich nicht (YYYY-MM-DD). Soll das Feld nicht geändert werden, ist im PUT/POST die Angabe von null möglich.
+
+---------------------------------------------------------------------------------------------------
+FB 3.40 00/00
+---------------------------------------------------------------------------------------------------
+
+***************************************************************************************************
+*** WICHTIG * Änderungen am Filter-Parameter                                                    ***
+***************************************************************************************************
+- Es kann nun auch das Schlüsselwort "null" in Verbindung mit den Operatoren "eq" und "ne" verwendet werden, z.B.:
+  ?filter=DefaultStockNumber eq null
+  ?filter=DefaultStockNumber ne null
+
+- Strings sollten nun grundsätzlich in Feldbegrenzern (einfaches Hochkomma) angegeben werden.
+  -> Enthalten Filter-Werte z.B. ein Minus, Schrägstrich, Komma, Punkt oder Leerzeichen, müssen
+     Feldbegrenzer verwendet werden.
+  -> Beginnt ein String mit einer Zahl, müssen ebenfalls Feldbegrenzer angegeben werden.
+     Wichtig: Das gilt auch für alphanummerische Ids, die mit einer Zahl beginnen!
+  ->  Wenn im Suchstring ein Hochkomma enthalten ist, muss dieses verdoppelt werden.
+  Beispiele:
+  ?filter=Description eq 'Dampf- u. Trockenbügelautomat'
+  ?filter=Description eq 'Merry''s Pub'
+  ?filter=Id eq '2303EUSL'
+  
+- !ACHTUNG! Um dies umzusetzen, wird ein neuer Filter-Parser eingesetzt.
+  Dieser ist strenger bei der Prüfung des übermittelten Filter-Strings, das betrifft:
+  -> Der Verkettungsoperator "and" muss in jedem Fall in Kleinbuchstaben übermittelt werden.
+  -> Datum-/Zeitangaben müssen im Format ISO 8601 angegeben werden, d.h. sie müssen den Trenner "T"
+     zwischen Datum und Zeit und einen Offset (+00:00) oder ein "Z" (für UTC) an Ende haben.
+     Die Fraction ist optional.
+     Die Finanzbuchhaltung wertet nur den Datum-/Zeit-String aus, nicht den Offset oder die UTC-Angabe.
+     ?filter=LastModified ge 2023-02-23T09:01:56.335476+00:00
+     ?filter=LastModified ge 2023-02-23T09:01:56.335476Z
+     ?filter=LastModified ge 2023-02-23T09:01:56+00:00
+  -> Reine Datumsangaben (Tagesdatum) können wie gewohnt im internationalen Format übermittelt werden, z.B.
+     ?filter=InspectionDate eq 2023-02-23
+  -> Wird ein ungültiger Filter-String übermittelt, wird der Request mit StatusCode 400 abgewiesen.
+
+***************************************************************************************************
+*** Prüfen Sie den Aufbau Ihrer Filter-Strings vor der Aktualisierung auf die FB 3.40           ***
+***************************************************************************************************
+
+
+---------------------------------------------------------------------------------------------------
+Neue Endpunkte:
+---------------------------------------------------------------------------------------------------
+SwaggerUI
+Zum Öffnen der SwaggerUI im Browser auf dem laufenden API Server:
+- GET /definition/swagger
+
+Benutzerdefinierte Felder
+Als Alternative zum bisherigen Zugriff auf die Merkmale von Benutzerdefinierten Feldern, ist jetzt auch folgende Variante möglich:
+- GET  /v1/user-defined-field-attributes:
+       /v1/user-defined-field-attributes/{userDefinedFieldAttributeId}:
+
+Offene Posten
+Es gibt mehrere neue Endpunkte zum Abrufen und Ändern der Ratenvereinbarung eines Offenen Postens:
+- GET    /v1/open-items/{OpenItemId}/instalments -> Liefert eine Liste der Raten zu dem Offenen Posten mit der angegebenen ID
+- PATCH  /v1/open-items/{OpenItemId}/deactivateInstalmentAgreement -> Ändert einen Offenen Posten von Ratenzahlung auf Nettofällig, mit optionaler Angabe eines Fälligkeitsdatums
+- PATCH  /v1/open-items/{OpenItemId}/patchInstalmentAgreement -> Legt eine Ratenvereinbarung für einen Offenen Posten an bzw. ändert eine vorhandene Ratenvereinbarung
+
+---------------------------------------------------------------------------------------------------
+Änderungen:
+---------------------------------------------------------------------------------------------------
+Benutzerdefinierte Felder
+- Bei der Definition von Benutzerdefinierten Feldern war bisher fälschlicherweise der Name als Key gekennzeichnet.
+  Der Name muss aber nicht eindeutig sein, ist also kein Key. Richtig ist, dass die Id der Key zur 
+  eindeutigen Identifikation ist.
+- Bei der Verwendung von Benutzerdefinierten Feldern (z.B. im Mitarbeiter) wird jetzt die Id (eindeutiger Key) zusätzlich zum
+  Namen mit ausgegeben.
+  Beispiel:
+  "UserDefinedFields": [
+    {
+        "Type": "Alphanumeric",
+        "Id": "101700000000008",
+        "Name": "Verkaufsgebiet",
+        "AlphanumericValue": "D",
+        "NumericValue": null,
+        "DateValue": null,
+        "Number": 1
+    },
+
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+FB 3.20 00/00
+---------------------------------------------------------------------------------------------------
+Neue Endpunkte
+- /definition -> Schnittstellenbeschreibung im JSON-Format
+- /definition/yaml -> Schnittstellenbeschreibung im YAML-Format
+- /appinfo/changelog -> Informationen zu Änderungen im Webservice (Changelog)
