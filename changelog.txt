@@ -1,5 +1,55 @@
 ---------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------
+FB 3.50 01/00
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Änderungen:
+---------------------------------------------------------------------------------------------------
+Der Endpunkt /v1/accounting-documents wurde um das Feld TypeOfDms erweitert.
+
+---------------------------------------------------------------------------------------------------
+FB 3.50 00/00
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Änderungen:
+---------------------------------------------------------------------------------------------------
+Der Pfad vom ChangeLog hat sich geändert: (zum Abruf von Informationen zu Änderungen im Webservice)
+/changelog.txt
+(statt bisher /appinfo/changelog )
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Neue Endpunkte:
+---------------------------------------------------------------------------------------------------
+Adressen
+Es gibt neue Endpunkte zum Abrufen, Anlegen, Ändern und Löschen von Kundenadressen
+GET    /v1/debtors/{accountId}/addresses -> Gibt alle Adressen zu dem Kundenkonto mit der angegeben accountId zurück.
+POST   /v1/debtors/{accountId}/addresses -> Legt eine neue Adresse in dem Kundenkonto mit der angegeben accountId an.
+GET    /v1/debtors/{accountId}/addresses/{addressId} -> Gibt die Adresse mit der angegebenen addressId aus dem Kundenkonto mit der angegebenen accountId zurück.
+PUT    /v1/debtors/{accountId}/addresses/{addressId} -> Ändert die Adresse mit der angegebenen addressId aus dem Kundenkonto mit der angegebenen accountId.
+DELETE /v1/debtors/{accountId}/addresses/{addressId} -> Löscht die Adresse mit der angegebenen addressId aus dem Kundenkonto mit der angegebenen accountId.
+
+Es gibt neue Endpunkte zum Abrufen, Anlegen, Ändern und Löschen von Lieferantenadressen
+GET    /v1/creditors/{accountId}/addresses -> Gibt alle Adressen zu dem Lieferantenkonto mit der angegeben accountId zurück.
+POST   /v1/creditors/{accountId}/addresses -> Legt eine neue Adresse in dem Lieferantenkonto mit der angegeben accountId an.
+GET    /v1/creditors/{accountId}/addresses/{addressId} -> Gibt die Adresse mit der angegebenen addressId aus dem Lieferantenkonto mit der angegebenen accountId zurück.
+PUT    /v1/creditors/{accountId}/addresses/{addressId} -> Ändert die Adresse mit der angegebenen addressId aus dem Lieferantenkonto mit der angegebenen accountId.
+DELETE /v1/creditors/{accountId}/addresses/{addressId} -> Löscht die Adresse mit der angegebenen addressId aus dem Lieferantenkonto mit der angegebenen accountId.
+
+Mahnungstypen/Mahnstufen
+Es gibt neue Endpunkte zum Abrufen, Anlegen, Ändern und Löschen von Mahnungstypen und Mahnstufen
+GET    /v1/dunning-types -> Gibt alle Mahnungstypen zurück.
+POST   /v1/dunning-types -> Legt einen neuen Mahnungstypen inklusive Mahnstufen an.
+GET    /v1/dunning-types/{dunningTypeId} -> Gibt den Mahnungstypen mit der angegebenen Id zurück.
+PUT    /v1/dunning-types/{dunningTypeId} -> Ändert den Mahnungstypen mit der angegebenen Id.
+DELETE /v1/dunning-types/{dunningTypeId} -> Löscht den Mahnungstypen mit der angegebenen Id.
+GET    /v1/dunning-types/{dunningTypeId}/dunning-levels -> Gibt alle Mahnstufen des Mahnungstypen mit der angegebenen Id zurück.
+POST   /v1/dunning-types/{dunningTypeId}/dunning-levels -> Legt eine neue Mahnstufe für den Mahnungstypen mit der angegebenen Id an.
+GET    /v1/dunning-types/{dunningTypeId}/dunning-levels/{dunningLevelId} -> Gibt die Mahnstufe mit der angegebenen Id aus dem Mahntypen mit der angegebenen Id zurück.
+PUT    /v1/dunning-types/{dunningTypeId}/dunning-levels/{dunningLevelId} -> Ändert die Mahnstufe mit der angegebenen Id aus dem Mahntypen mit der angegebenen Id.
+DELETE /v1/dunning-types/{dunningTypeId}/dunning-levels/{dunningLevelId} -> Löscht die Mahnstufe mit der angegebenen Id aus dem Mahntypen mit der angegebenen Id.
+
+---------------------------------------------------------------------------------------------------
 FB 3.40 03/00
 ---------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------
