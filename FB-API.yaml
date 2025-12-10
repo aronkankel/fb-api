@@ -7,7 +7,7 @@ info:
     Anwendungsschnittstelle (Webservice) zur HS Finanzbuchhaltung.
     <br>Copyright HS - Hamburger Software GmbH & Co. KG, 2023 <br>
     <br>
-    <a href="/fb-api/appinfo/changelog">Changelog anzeigen</a>
+    <a href="/fb-api/changelog">Changelog anzeigen</a>
   license:
     name: HS - Hamburger Software GmbH & Co. KG
     url: http://www.hamburger-software.de
