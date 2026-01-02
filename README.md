@@ -30,11 +30,11 @@ Die Verwendung der API für Erkundungs- sowie Testzwecke ist in den Beispieldate
 
 # API einrichten
 Die Verwendung der API erfordert folgende Schritte.
-
-Installation der Anwendung
-Lizenzierung der API
-Einrichtung und Konfiguration des Webservice
-Alle Informationen hierzu finden Sie in der Hilfe zu HS Auftragsbearbeitung unter „Anleitungen & Wissen / Datenaustausch / API (Webservice)“.
+- Installation der Anwendung
+- Lizenzierung der API
+- Einrichtung und Konfiguration des Webservice
+  
+Alle Informationen hierzu finden Sie in der Hilfe zu HS Finanzbuchhaltung unter „Anleitungen & Wissen / Datenaustausch / API (Webservice)“.
 
 # Nutzung der API
 In der Auftragsbearbeitung wird ein Webservice (Dienst) gestartet, der auf verschiedene Endpunkte (URLs) reagiert.
