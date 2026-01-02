@@ -75,9 +75,9 @@ Außerdem sollte der HTTP-User-Agent gesetzt werden. Das ist über die Kommandoz
 # Generierter Code
 Es wird der Programmcode und entsprechende UnitTest generiert. Der Programmcode ist in drei Bereiche aufgeteilt.
 
-API: Enthält die Methoden für den Zugriff auf die konkreten Endpunkte
-Client: Implementierung des hSp-Clients etc.
-Model: Enthält die Models
+- API: Enthält die Methoden für den Zugriff auf die konkreten Endpunkte
+- Client: Implementierung des hSp-Clients etc.
+- Model: Enthält die Models
 
 # Besonderheiten zu Endpunktgruppen und Endpunkten
 Hinweise zur Verwendung, der fachlichen Gegebenheiten und zu Besonderheiten sind umfassend in der Beschreibungsdatei enthalten. Verwenden Sie ein Tool wie z.B. Swagger Editor, um die Möglichkeiten optimal zu nutzen.
